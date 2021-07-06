@@ -4,21 +4,23 @@ USE employees_db;
 
 CREATE TABLE department(
 id INT NOT NULL AUTO_INCREMENT,
-dept_name VARCHAR(30) NULL,
+dept_name VARCHAR(30) NOT NULL,
 PRIMARY KEY (id)
 );
 
 CREATE TABLE roles(
 id INT NOT NULL AUTO_INCREMENT,
-title VARCHAR(30) NULL,
-salary DECIMAL(6,2) NULL,
-dept_id INT
+title VARCHAR(30) NOT NULL,
+salary DECIMAL(6,2) NOT NULL,
+dept_id INT NOT NULL,
+PRIMARY KEY (id)
 );
 
 CREATE TABLE employee(
 id INT NOT NULL AUTO_INCREMENT,
-first_name VARCHAR(30) NULL,
-last_name VARCHAR(30) NULL,
-role_id INT,
-manager_id INT NULL
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+role_id INT NOT NULL,
+manager_id INT NOT NULL,
+PRIMARY KEY (id)
 );
