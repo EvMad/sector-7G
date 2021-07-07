@@ -83,9 +83,11 @@ const runPrompt = () => {
 };
 
 const viewAll = () => { 
+    console.log('Selecting all employees...\n');
     connection.query('SELECT * FROM employee', (err,res) => {
         if (err) throw err;
         console.table(res);
+        connection.end();
     });
         };
 
