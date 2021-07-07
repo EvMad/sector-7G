@@ -28,7 +28,7 @@ const runPrompt = () => {
         message: 'What would you like to do?',
         choices: [
             'See all Employees',
-            'Search all employees',
+            'Search all Employees',
             'See a department',
             'See a job role',
             'Add an employee',
@@ -42,7 +42,7 @@ const runPrompt = () => {
     })
     .then((answer) => {
         switch (answer.action) {
-            case 'See all employees':
+            case 'See all Employees':
                 viewAll();
                 break;
 
@@ -98,10 +98,10 @@ const searchAll = () => {
         message: 'Which employee would you like to search for?',
     })
     .then((answer) => {
-        const query = 'SELECT first_name, last_name, FROM empoyee WHERE ?';
-        connection.query(query, {employee: answer.employee}, (err,res) => {
+        const query = 'SELECT first_name, last_name FROM employee';
+        connection.query(query, { employee: answer.employee }, (err,res) => {
             if (err) throw err;
-            res.forEach(({first_name, last_name}) => {
+            res.forEach(({ first_name, last_name }) => {
                 console.log(`Employee: ${first_name} ${last_name}`);
         });
         runPrompt();
@@ -116,10 +116,10 @@ const viewDept = () => {
         message: 'Which department would you like to search for?',
     })
     .then((answer) => {
-        const query = 'SELECT dept_name FROM department WHERE ?';
-        connection.query(query, {department: answer.department}, (err,res) => {
+        const query = 'SELECT dept_name FROM department';
+        connection.query(query, { department: answer.department }, (err,res) => {
             if (err) throw err;
-            res.forEach(({dept_name}) => {
+            res.forEach(({ dept_name }) => {
                 console.log(`Department: ${dept_name}`);
             });
             runPrompt();
@@ -134,7 +134,7 @@ const viewRole = () => {
         message: 'Which role would you like to search for?',
     })
     .then((answer) => {
-        const query = 'SELECT title FROM roles WHERE ?';
+        const query = 'SELECT title FROM roles';
         connection.query(query, {role: answer.role}, (err,res) => {
             if (err) throw err;
             res.forEach(({title}) => {
