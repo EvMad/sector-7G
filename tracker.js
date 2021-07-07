@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 
 
+
 const connection = mysql.createConnection({
 
     host: "localhost",
@@ -146,25 +147,154 @@ const viewRole = () => {
 };
 
 const addEmp = () => {
-    inquirer.prompt({
+    inquirer.prompt([
+        {
         name: 'addPerson',
         type: 'input',
-        message:'enter employee first name'
-    },
-    {
-        name:'addLast',
-        type: 'input',
-        message: 'what is the employee last name?'
+        message:'enter employee first name'},
+        {
+            name:'addLast',
+            type: 'input',
+            message: 'what is the employee last name?'
+        },
+        {
+            name: 'addRole',
+            type: 'list',
+            message: 'Choose a role id:',
+            choices: ['gen', 'jdv', 'sdv', 'lgl', 'hrd', 'mng']
+        },
+        {
+            name: 'addMng',
+            type: 'list',
+            message: 'Assign a manager:',
+            choices: ['MW', 'GW']
+        }
 
-    })
+    ])
     .then((answer) => {console.log('Adding a new employee...\n');
-    const query = connection.query(
+    connection.query(
         'INSERT INTO employee SET ?',
         {
             first_name: answer.addPerson,
+            last_name: answer.addLast,
+            role_id: answer.addRole,
+            manager_id: answer.addMng,
         },
-        (err, res) => {
-            console.log(`${res.affectedRows} emplyee added!\n`);
+        (err) => {
+            if (err) throw err;
+            console.log('Employee added!\n');
+            
+        }
+        
+    );
+});
+};
+
+const addRole = () => {
+    inquirer.prompt([
+        {
+        name: 'addTitle',
+        type: 'input',
+        message:'Enter new role/title name:'},
+        {
+            name:'addNewRoleId',
+            type: 'input',
+            message: 'Enter new role ID as three character abbreviation:'
+        },
+        {
+            name:'addSalary',
+            type: 'input',
+            message: 'Enter salary:'
+        },
+        {
+            name: 'chooseDept',
+            type: 'list',
+            message: 'Choose a department:',
+            choices: ['gen', 'mgt', 'lgl', 'inf', 'hrd'],
+        },
+    
+
+    ])
+    .then((answer) => {console.log('Adding a new role...\n');
+    connection.query(
+        'INSERT INTO roles SET ?',
+        {
+            id: answer.addNewRoleId,
+            title: answer.addTitle,
+            salary: answer.addSalary,
+            dept_id: answer.chooseDept,
+        },
+        (err) => {
+            if (err) throw err;
+            console.log('New role added!\n');
+            
+        }
+        
+    );
+});
+};
+
+const addDept = () => {
+    inquirer.prompt([
+        {
+        name: 'addDept',
+        type: 'input',
+        message:'Enter new department name:'},
+        {
+            name:'addDeptId',
+            type: 'input',
+            message: 'Enter new dept ID as three character abbreviation:'
+        },
+
+    ])
+    .then((answer) => {console.log('Adding a new department...\n');
+    connection.query(
+        'INSERT INTO department SET ?',
+        {
+            id: answer.addDept,
+            dept_name: answer.addDeptId,
+            
+        },
+        (err) => {
+            if (err) throw err;
+            console.log('New department added!\n');
+            
+        }
+        
+    );
+});
+};
+
+const updateEmp = () => {
+    inquirer.prompt([
+        {
+        name: 'upEmp',
+        type: 'list',
+        message:'Which employee would you like to update?',
+        choices: [''],
+    },
+        {
+            name:'empRole',
+            type: 'list',
+            message: 'Choose a new role:',
+            choices: ['gen', 'jdv', 'sdv', 'lgl', 'hrd', 'mng'],
+        },
+
+    ])
+    .then((answer) => {console.log('Updating employee role...\n');
+    connection.query(
+        'UPDATE employee SET ? WHERE ?',
+        {
+            first_name: answer.upEmp,
+        },
+        {
+            role_id: answer.empRole,
+            
+        },
+        (err) => {
+            if (err) throw err;
+            console.log('New role assigned!\n');
+            
         }
         
     );
