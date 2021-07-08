@@ -30,7 +30,7 @@ const runPrompt = () => {
         choices: [
             'See all Employees',
             'See a department',
-            'See a job role',
+            'See job roles',
             'Add an employee',
             'Add a role',
             'Add a department',
@@ -50,7 +50,7 @@ const runPrompt = () => {
                 viewDept();
                 break;
             
-            case 'See a job role':
+            case 'See job roles':
                 viewRole();
                 break;
 
@@ -83,8 +83,9 @@ const viewAll = () => {
     connection.query('SELECT * FROM employee', (err,res) => {
         if (err) throw err;
         console.table(res);
-        connection.end();
+        // connection.end();
     });
+    runPrompt();
         };
 
 const viewDept = () => {
@@ -164,7 +165,7 @@ const addEmp = () => {
         }
         
     );
-    
+
 });
 };
 
@@ -243,13 +244,26 @@ const addDept = () => {
 });
 };
 
+const people = [];
+
 const updateEmp = () => {
+
+    const employeeChoices = () => {
+       
+        connection.query('SELECT last_name FROM employee', (err, res) => {
+            if (err) throw err;
+                res.push(people);
+            })
+    };
+
+    employeeChoices();
+
     inquirer.prompt([
         {
         name: 'upEmp',
         type: 'list',
-        message:'Which employee would you like to update?',
-        choices: [''],
+        message:'Which employee (last name) would you like to update?',
+        choices: people,
     },
         {
             name:'empRole',
