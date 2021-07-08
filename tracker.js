@@ -29,7 +29,6 @@ const runPrompt = () => {
         message: 'What would you like to do?',
         choices: [
             'See all Employees',
-            'Search all Employees',
             'See a department',
             'See a job role',
             'Add an employee',
@@ -45,10 +44,6 @@ const runPrompt = () => {
         switch (answer.action) {
             case 'See all Employees':
                 viewAll();
-                break;
-
-            case 'Search all Employees':
-                searchAll();
                 break;
 
             case 'See a department':
@@ -91,24 +86,6 @@ const viewAll = () => {
         connection.end();
     });
         };
-
-const searchAll = () => {
-    inquirer.prompt({
-        name: 'employee',
-        type: 'input',
-        message: 'Which employee would you like to search for?',
-    })
-    .then((answer) => {
-        const query = 'SELECT first_name, last_name FROM employee';
-        connection.query(query, { employee: answer.employee }, (err,res) => {
-            if (err) throw err;
-            res.forEach(({ first_name, last_name }) => {
-                console.log(`Employee: ${first_name} ${last_name}`);
-        });
-        runPrompt();
-        });
-    });
-};
 
 const viewDept = () => {
     inquirer.prompt({
@@ -187,6 +164,7 @@ const addEmp = () => {
         }
         
     );
+    
 });
 };
 
